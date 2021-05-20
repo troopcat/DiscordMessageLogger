@@ -27,8 +27,11 @@ async def on_ready(): print("Online.")
 
 @client.event
 async def on_raw_message_delete(payload):
-
-	if not payload or payload.cached_message.author.id != logid: return
+	try:
+		if not payload or payload.cached_message.author.id != logid: return
+		
+	except AttributeError:
+		return
 
 	try:
 		time = datetime.now().strftime("%H:%M:%S") + " - " + datetime.now().strftime("%d/%m/%Y")
