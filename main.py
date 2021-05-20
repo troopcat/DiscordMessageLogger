@@ -24,7 +24,31 @@ client = commands.Bot(command_prefix="", intents=discord.Intents.all())
 
 @client.event
 async def on_ready(): print("Online.")
-	
+
+@client.event
+async def on_raw_message_delete(payload):
+	if payload.cached_message.author.id != logid: return
+
+	try:
+		time = datetime.now().strftime("%H:%M:%S") + " - " + datetime.now().strftime("%d/%m/%Y")
+
+		message = payload.cached_message
+		content = message.content
+
+		if message.attachments:
+			for a in message.attachments:
+				content += " {" + a.filename + "} "
+
+
+		with open(logfile, "a+", encoding="utf8") as f:
+				f.write(f"----------\n\n\nEvent: Message deleted \nAuthor: {message.author},\nAuthor ID: {message.author.id}\nGuild: {message.guild}\nChannel: {message.channel}\nMessage ID: {message.id}\nTime: {time}\n\nContent:\n{content}\n\n\n----------")
+
+	except Exception as e:
+		print(f"[ERROR] {e}")
+
+	else:
+		print("[DEBUG] Message deleted.")
+
 @client.event
 async def on_message_edit(before, after):
 	if before.author.id != logid: return
