@@ -16,8 +16,9 @@ with open("config.json", "r", encoding="utf8") as f:
 	jso = json.load(f)
 
 token = jso["token"]
-logid = jso["logid"]
-logimg = jso["logimg"]
+logid = jso["logID"]
+
+da = jso["download_attachments"]
 
 client = commands.Bot(command_prefix="", intents=discord.Intents.all())
 
@@ -43,7 +44,7 @@ async def on_message_edit(before, after):
 				contentbefore += " {" + a.filename + "} "
 
 		with open(logfile, "a+", encoding="utf8") as f:
-				f.write(f"----------\n\n\nEvent: Message edited \nAuthor: {before.author},\nAuthor ID: {before.author.id}\nGuild: {before.guild}\nChannel: {before.channel}\nMessage ID: {before.id}\nTime: {time}\n\nBefore: {contentbefore}\nAfter: {contentafter}\n\n\n----------")
+				f.write(f"----------\n\n\nEvent: Message edited \nAuthor: {before.author},\nAuthor ID: {before.author.id}\nGuild: {before.guild}\nChannel: {before.channel}\nMessage ID: {before.id}\nTime: {time}\n\nBefore:\n{contentbefore}\n\nAfter:\n{contentafter}\n\n\n----------")
 
 	except Exception as e:
 		print(f"[ERROR] {e}")
@@ -59,13 +60,13 @@ async def on_message(message):
 		time = datetime.now().strftime("%H:%M:%S") + " - " + datetime.now().strftime("%d/%m/%Y")
 		content = message.content
 
-		if logimg:
+		if da:
 			mid = -1
 			firstTry = False
 
 			if message.attachments:
 				for a in message.attachments:
-					images = os.path.join(os.path.dirname(__file__), "images")
+					images = os.path.join(os.path.dirname(__file__), "attachments")
 					filename = os.path.join(images, a.filename)
 
 					while True:
@@ -90,7 +91,7 @@ async def on_message(message):
 					content += " {" + a.filename + "} "
 
 		with open(logfile, "a+", encoding="utf8") as f:
-			f.write(f"----------\n\n\nEvent: Message sent \nAuthor: {message.author},\nAuthor ID: {message.author.id}\nGuild: {message.guild}\nChannel: {message.channel}\nMessage ID: {message.id}\nTime: {time}\n\nContent: {content}\n\n\n----------")
+			f.write(f"----------\n\n\nEvent: Message sent \nAuthor: {message.author},\nAuthor ID: {message.author.id}\nGuild: {message.guild}\nChannel: {message.channel}\nMessage ID: {message.id}\nTime: {time}\n\nContent:\n{content}\n\n\n----------")
 
 	except Exception as e:
 		print(f"[ERROR] {e}")

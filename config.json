@@ -1,5 +1,5 @@
 {
 	"token": "TOKEN",
-	"logid": 123123123123123123,
-	"logimg": true
+	"logID": 123123123123123,
+	"download_attachments": true
 }
