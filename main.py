@@ -48,10 +48,10 @@ async def on_raw_message_delete(payload):
 				f.write(f"----------\n\n\nEvent: Message deleted \nAuthor: {message.author},\nAuthor ID: {message.author.id}\nGuild: {message.guild}\nChannel: {message.channel}\nMessage ID: {message.id}\nTime: {time}\n\nContent:\n{content}\n\n\n----------")
 
 	except Exception as e:
-		print(f"[ERROR] {e}")
+		print(f"{time} [ERROR] {e}")
 
 	else:
-		print("[DEBUG] Message deleted.")
+		print(f"{time} [DEBUG] Message deleted.")
 
 @client.event
 async def on_message_edit(before, after):
@@ -75,10 +75,10 @@ async def on_message_edit(before, after):
 				f.write(f"----------\n\n\nEvent: Message edited \nAuthor: {before.author},\nAuthor ID: {before.author.id}\nGuild: {before.guild}\nChannel: {before.channel}\nMessage ID: {before.id}\nTime: {time}\n\nBefore:\n{contentbefore}\n\nAfter:\n{contentafter}\n\n\n----------")
 
 	except Exception as e:
-		print(f"[ERROR] {e}")
+		print(f"{time} [ERROR] {e}")
 
 	else:
-		print("[DEBUG] Message edited.")
+		print(f"{time} [DEBUG] Message edited.")
 
 @client.event
 async def on_message(message):
@@ -122,10 +122,10 @@ async def on_message(message):
 			f.write(f"----------\n\n\nEvent: Message sent \nAuthor: {message.author},\nAuthor ID: {message.author.id}\nGuild: {message.guild}\nChannel: {message.channel}\nMessage ID: {message.id}\nTime: {time}\n\nContent:\n{content}\n\n\n----------")
 
 	except Exception as e:
-		print(f"[ERROR] {e}")
+		print(f"{time} [ERROR] {e}")
 
 	else:
-		print("[DEBUG] Message sent.")
+		print(f"{time} [DEBUG] Message sent.")
 
 
 
