@@ -24,7 +24,7 @@ client = commands.Bot(command_prefix="", intents=discord.Intents.all())
 
 @client.event
 async def on_ready():
-    print("Logged In.")
+	print("Logged In.")
 
 @client.event
 async def on_raw_message_delete(payload):
@@ -33,6 +33,9 @@ async def on_raw_message_delete(payload):
 		
 	except AttributeError:
 		return
+	
+	try: guildID = message.guild.id
+	except AttributeError: guildID = None
 
 	try:
 		time = datetime.now().strftime("%H:%M:%S") + " - " + datetime.now().strftime("%d/%m/%Y")
@@ -46,7 +49,7 @@ async def on_raw_message_delete(payload):
 
 
 		with open(logfile, "a+", encoding="utf8") as f:
-				f.write(f"-\n\n\nEvent: Message deleted \nAuthor: {message.author}\nAuthor ID: {message.author.id}\nGuild: {message.guild}\nGuild ID: {message.guild.id}\nChannel: {message.channel}\nChannel ID: {message.channel.id}\nMessage ID: {message.id}\nTime: {time}\n\nContent:\n{content}\n\n\n-")
+				f.write(f"-\n\n\nEvent: Message deleted \nAuthor: {message.author}\nAuthor ID: {message.author.id}\nGuild: {message.guild}\nGuild ID: {guildID}\nChannel: {message.channel}\nChannel ID: {message.channel.id}\nMessage ID: {message.id}\nTime: {time}\n\nContent:\n{content}\n\n\n-")
 
 	except Exception as e:
 		print(f"{time} [ERROR] {e}")
@@ -57,7 +60,10 @@ async def on_raw_message_delete(payload):
 @client.event
 async def on_message_edit(before, after):
 	if before.author.id != logid: return
-
+	
+	try: guildID = before.guild.id
+	except AttributeError: guildID = None
+	
 	try:
 		time = datetime.now().strftime("%H:%M:%S") + " - " + datetime.now().strftime("%d/%m/%Y")
 
@@ -73,7 +79,7 @@ async def on_message_edit(before, after):
 				contentbefore += " {" + a.filename + "} "
 
 		with open(logfile, "a+", encoding="utf8") as f:
-				f.write(f"-\n\n\nEvent: Message edited \nAuthor: {before.author}\nAuthor ID: {before.author.id}\nGuild: {before.guild}\nGuild ID: {before.guild.id}\nChannel: {before.channel}\nChannel ID: {before.channel.id}\nMessage ID: {before.id}\nTime: {time}\n\nBefore:\n{contentbefore}\n\nAfter:\n{contentafter}\n\n\n-")
+				f.write(f"-\n\n\nEvent: Message edited \nAuthor: {before.author}\nAuthor ID: {before.author.id}\nGuild: {before.guild}\nGuild ID: {guildID}\nChannel: {before.channel}\nChannel ID: {before.channel.id}\nMessage ID: {before.id}\nTime: {time}\n\nBefore:\n{contentbefore}\n\nAfter:\n{contentafter}\n\n\n-")
 
 	except Exception as e:
 		print(f"{time} [ERROR] {e}")
@@ -88,7 +94,10 @@ async def on_message(message):
 	try:
 		time = datetime.now().strftime("%H:%M:%S") + " - " + datetime.now().strftime("%d/%m/%Y")
 		content = message.content
-
+		
+		try: guildID = message.guild.id
+		except AttributeError: guildID = None
+		
 		if da:
 			mid = -1
 			firstTry = False
@@ -120,7 +129,7 @@ async def on_message(message):
 					content += " {" + a.filename + "} "
 
 		with open(logfile, "a+", encoding="utf8") as f:
-			f.write(f"-\n\n\nEvent: Message sent \nAuthor: {message.author}\nAuthor ID: {message.author.id}\nGuild: {message.guild}\nGuild ID: {message.guild.id}\nChannel: {message.channel}\nChannel ID: {message.channel.id}\nMessage ID: {message.id}\nTime: {time}\n\nContent:\n{content}\n\n\n-")
+			f.write(f"-\n\n\nEvent: Message sent \nAuthor: {message.author}\nAuthor ID: {message.author.id}\nGuild: {message.guild}\nGuild ID: {guildID}\nChannel: {message.channel}\nChannel ID: {message.channel.id}\nMessage ID: {message.id}\nTime: {time}\n\nContent:\n{content}\n\n\n-")
 
 	except Exception as e:
 		print(f"{time} [ERROR] {e}")
