@@ -34,7 +34,7 @@ async def on_raw_message_delete(payload):
 	except AttributeError:
 		return
 	
-	try: guildID = message.guild.id
+	try: guildID = payload.cached_message.guild.id
 	except AttributeError: guildID = None
 
 	try:
